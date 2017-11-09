@@ -1,10 +1,12 @@
 function [R] = Quaternion_to_Rotation(q)
 % Converts a quaternion to a rotation matrix
-% https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-qw = q(1); qx = q(2); qy = q(3); qz = q(4);
-R = [qw^2+qx^2-qy^2-qz^2,     2*(qx*qy-qw*qz),      2*(qw*qy+qx*qz);
-         2*(qx*qy+qw*qz), qw^2-qx^2+qy^2-qz^2,      2*(qy*qz-qw*qx);
-         2*(qx*qz-qw*qy),     2*(qw*qx+qy*qz), qw^2-qx^2-qy^2+qz^2];
+% http://mars.cs.umn.edu/tr/reports/Trawny05b.pdf
+%
+% Author:   Ross Hartley
+% Date:     11/09/2017
+
+qv = q(1:3); qw = q(4);
+R = (2*qw^2-1)*eye(3) - 2*qw*Angles.skew(qv) + 2*(qv*qv');
 
 end
 
